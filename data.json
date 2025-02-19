@@ -2,13 +2,15 @@
   "users": [
     {
       "id": 1,
-      "name": "user",
-      "password": "password"
+      "name": "detre",
+      "password": "password",
+        "roles": ["admin"]
     },
     {
       "id": 2,
       "name": "guest",
-      "password": "guest"
+      "password": "guest",
+      "roles": ["admin"]
     }
   ],
   "ships": [

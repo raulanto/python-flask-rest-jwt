@@ -6,14 +6,15 @@ from flask_jwt_extended import (
 from app import db, jwt
 from app.auth import bp
 from app.errors import error_response
-
+from app.models import user_schema
 
 blacklist = set()
 
 
 @jwt.token_in_blocklist_loader
-def check_if_token_in_blacklist(decrypted_token):
-    return decrypted_token["jti"] in blacklist
+def check_if_token_in_blacklist(jwt_header, jwt_payload):
+    jti = jwt_payload["jti"]  # Obtiene el identificador único del token
+    return jti in blacklist  # Verifica si el token está en la lista negra
 
 
 @bp.route("/login", methods=["POST"])
@@ -29,11 +30,14 @@ def login():
 
     user = db.get_user_by_name(username)
 
-    if not user or user.password != password:
-        return error_response(401, "Username or password invalid.")
-    access_token = create_access_token(identity=user.id)
-    refresh_token = create_refresh_token(identity=user.id)
-    return jsonify(access_token=access_token, refresh_token=refresh_token, user_id=user.id)
+    if not user:
+        return error_response(401, "Username invalid.")
+    if user.password != password:
+        return error_response(401, "Password invalid.")
+
+    access_token = create_access_token(identity=str(user.id))
+    refresh_token = create_refresh_token(identity=str(user.id))
+    return jsonify(access_token=access_token, refresh_token=refresh_token, user=user_schema.dump(user))
 
 
 @bp.route("/refresh", methods=["POST"])

@@ -1,5 +1,5 @@
 from flask import jsonify, request, url_for
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required,get_jwt_identity
 from app import db
 from app.api import bp
 from app.models import ship_schema
@@ -12,6 +12,15 @@ from marshmallow import ValidationError
 def get_ships():
     ships = db.all_ships()
     return jsonify(ship_schema.dump(ships, many=True))
+
+
+@bp.route("/protected", methods=["GET"])
+@jwt_required()
+def protected():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
+
 
 @bp.route("/ships/<int:id>", methods=["GET"])
 def get_ship(id):
