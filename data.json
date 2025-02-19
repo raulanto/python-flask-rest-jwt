@@ -4,13 +4,19 @@
       "id": 1,
       "name": "detre",
       "password": "password",
-        "roles": ["admin"]
+      "roles": [
+        "admin"
+      ],
+      "email": "detretaty@gmail.com"
     },
     {
       "id": 2,
       "name": "guest",
       "password": "guest",
-      "roles": ["admin"]
+      "roles": [
+        "admin"
+      ],
+      "email": "detretaty@gmail.com"
     }
   ],
   "ships": [

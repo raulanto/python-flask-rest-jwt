@@ -33,11 +33,12 @@ class ShipSchema(Schema):
 
 
 class User:
-    def __init__(self, id, name, password, roles):
-        self.id = id
-        self.name = name
-        self.password = password
-        self.roles = roles
+    def __init__(self, id, name, password, roles, email):
+            self.id = id
+            self.name = name
+            self.password = password
+            self.roles = roles
+            self.email = email
 
     def __repr__(self):
         return "<User({})>".format(self.name)
@@ -48,7 +49,7 @@ class UserSchema(Schema):
     name = fields.Str(required=True, validate=validate.Length(min=2))
     password = fields.Str(required=True, validate=validate.Length(min=4), load_only=True)
     roles = fields.List(fields.Str(), required=True)
-
+    email = fields.Email(required=True)
     @post_load
     def make_user(self, data, **kwargs):
         return User(**data)
