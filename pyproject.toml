@@ -6,7 +6,6 @@ authors = ["Toxe <toxe@toxe.net>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
 flask = "^1.1.2"
 flask-jwt-extended = "^3.24.1"
 python-dotenv = "^0.14.0"

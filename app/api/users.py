@@ -7,9 +7,16 @@ from app.errors import error_response
 from marshmallow import ValidationError
 
 
+
+
 @bp.route("/users", methods=["GET"])
+@jwt_required(refresh=True)
 def get_users():
-    return jsonify(user_schema.dump(db.all_users(), many=True))
+    try:
+        users = db.all_users()
+        return jsonify(user_schema.dump(users, many=True))
+    except ValidationError as err:
+        return error_response(400, err.messages)
 
 
 @bp.route("/users/<int:id>", methods=["GET"])
@@ -20,7 +27,7 @@ def get_user(id):
     return jsonify(user_schema.dump(user))
 
 
-@bp.route("/users", methods=["POST"])
+@bp.route("/users/crear/", methods=["POST"])
 def create_user():
     try:
         user = user_schema.loads(request.data)
@@ -37,8 +44,8 @@ def create_user():
     return response
 
 
-@bp.route("/users/<int:id>", methods=["PUT"])
-@jwt_required
+@bp.route("/users/actulizar/<int:id>", methods=["PUT"])
+@jwt_required(refresh=True)
 def update_user(id):
     if id != get_jwt_identity():
         return error_response(403)
@@ -60,8 +67,8 @@ def update_user(id):
     return response
 
 
-@bp.route("/users/<int:id>", methods=["DELETE"])
-@jwt_required
+@bp.route("/users/delete/<int:id>", methods=["DELETE"])
+@jwt_required(refresh=True)
 def delete_user(id):
     if id != get_jwt_identity():
         return error_response(403)

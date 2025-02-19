@@ -8,9 +8,10 @@ from marshmallow import ValidationError
 
 
 @bp.route("/ships", methods=["GET"])
+@jwt_required()
 def get_ships():
-    return jsonify(ship_schema.dump(db.all_ships(), many=True))
-
+    ships = db.all_ships()
+    return jsonify(ship_schema.dump(ships, many=True))
 
 @bp.route("/ships/<int:id>", methods=["GET"])
 def get_ship(id):
@@ -20,8 +21,8 @@ def get_ship(id):
     return jsonify(ship_schema.dump(ship))
 
 
-@bp.route("/ships", methods=["POST"])
-@jwt_required
+@bp.route("/ships/crear/", methods=["POST"])
+@jwt_required(refresh=True)
 def create_ship():
     try:
         ship = ship_schema.loads(request.data)
@@ -36,8 +37,8 @@ def create_ship():
     return response
 
 
-@bp.route("/ships/<int:id>", methods=["PUT"])
-@jwt_required
+@bp.route("/ships/actualizar/<int:id>", methods=["PUT"])
+@jwt_required(refresh=True)
 def update_ship(id):
     try:
         ship = ship_schema.loads(request.data)
@@ -57,8 +58,8 @@ def update_ship(id):
     return response
 
 
-@bp.route("/ships/<int:id>", methods=["DELETE"])
-@jwt_required
+@bp.route("/ships/delete/<int:id>", methods=["DELETE"])
+@jwt_required(refresh=True)
 def delete_ship(id):
     if db.get_ship(id) is None:
         return error_response(404)
