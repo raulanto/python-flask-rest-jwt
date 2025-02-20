@@ -1,21 +1,31 @@
 #app/models.py
 
 from marshmallow import Schema, fields, post_load, validate
+from app import db
 
+class Ship(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    affiliation = db.Column(db.String(80), nullable=False)
+    category = db.Column(db.String(80), nullable=False)
+    crew = db.Column(db.Integer, nullable=False)
+    length = db.Column(db.Integer, nullable=False)
+    manufacturer = db.Column(db.String(120), nullable=False)
+    model = db.Column(db.String(120), nullable=False)
+    ship_class = db.Column(db.String(120), nullable=False)
+    roles = db.Column(db.Text, nullable=False)  # Se almacenará como JSON en una cadena
 
-class Ship:
-    def __init__(self, id, affiliation, category, crew, length, manufacturer, model, ship_class, roles):
-        self.id = id
-        self.affiliation = affiliation
-        self.category = category
-        self.crew = crew
-        self.length = length
-        self.manufacturer = manufacturer
-        self.model = model
-        self.ship_class = ship_class
-        self.roles = roles
     def __repr__(self):
-        return "<Ship({})>".format(self.model)
+        return f"<Ship({self.model})>"
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password = db.Column(db.String(128), nullable=False)
+    roles = db.Column(db.Text, nullable=False)  # Se almacenará como JSON en una cadena
+    email = db.Column(db.String(120), unique=True, nullable=False)
+
+    def __repr__(self):
+        return f"<User({self.username})>"
 
 
 class ShipSchema(Schema):
@@ -34,21 +44,10 @@ class ShipSchema(Schema):
         return Ship(**data)
 
 
-class User:
-    def __init__(self, id, name, password, roles, email):
-            self.id = id
-            self.name = name
-            self.password = password
-            self.roles = roles
-            self.email = email
-
-    def __repr__(self):
-        return "<User({})>".format(self.name)
-
 
 class UserSchema(Schema):
     id = fields.Integer(validate=validate.Range(min=1), missing=0)
-    name = fields.Str(required=True, validate=validate.Length(min=2))
+    username = fields.Str(required=True, validate=validate.Length(min=2))
     password = fields.Str(required=True, validate=validate.Length(min=4), load_only=True)
     roles = fields.List(fields.Str(), required=True)
     email = fields.Email(required=True)

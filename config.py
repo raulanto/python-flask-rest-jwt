@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-
+# config.py
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, ".env"))
 
@@ -10,3 +10,6 @@ class Config(object):
     JWT_ERROR_MESSAGE_KEY = "error"
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ["access", "refresh"]
+ # Configuración de la base de datos SQLite
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(basedir, 'app.db')}"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False  # Desactiva warnings de cambios en SQLAlchemy
