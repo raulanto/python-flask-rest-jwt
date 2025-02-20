@@ -10,7 +10,6 @@ from marshmallow import ValidationError
 
 
 @bp.route("/users", methods=["GET"])
-@jwt_required()
 def get_users():
     users = User.query.all()
     return jsonify(user_schema.dump(users, many=True))
@@ -32,7 +31,7 @@ def create_user():
     except ValidationError as err:
         return error_response(400, err.messages)
 
-    if User.query.filter_by(name=user_data["name"]).first():
+    if User.query.filter_by(username=user_data["username"]).first():
         return error_response(400, "User already exists.")
 
     user = User(**user_data)  # Crea el objeto User con los datos
