@@ -424,3 +424,26 @@ Content-Type: text/html; charset=utf-8
 Server: Werkzeug/1.0.1 Python/3.8.2
 Date: Fri, 15 May 2020 13:08:25 GMT
 ```
+
+````aiignore
+/project_root
+│
+├── app/
+│   ├── __init__.py
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── ships.py
+│   │   └── users.py│
+    ├── auth/
+│   │   ├── __init__.py
+│   │   └── auth.py
+│   ├── errors.py
+│   ├── models.py
+│   └── db.py
+│
+├── .env
+├── config.py
+└── .flaskenv
+└── main.py
+
+````
