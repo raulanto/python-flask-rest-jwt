@@ -2,7 +2,7 @@
   "users": [
     {
       "id": 1,
-      "name": "detre",
+      "name": "admin",
       "password": "password",
       "roles": [
         "admin"
@@ -11,12 +11,21 @@
     },
     {
       "id": 2,
-      "name": "guest",
+      "name": "recrh",
+      "password": "password",
+      "roles": [
+        "rh"
+      ],
+      "email": "guest@gmail.com"
+    },
+        {
+      "id": 1,
+      "name": "basic",
       "password": "password",
       "roles": [
         "basic"
       ],
-      "email": "guest@gmail.com"
+      "email": "detretaty@gmail.com"
     }
   ],
   "ships": [
