@@ -26,14 +26,14 @@ def login():
     password = request.form.get("password")
 
     if not username or not password:
-        return error_response(400, "Username or password missing.")
+        return error_response(400, "Nombre de usuario o contraseña faltante.")
 
     user = db.get_user_by_name(username)
 
     if not user:
-        return error_response(401, "Username invalid.")
+        return error_response(401, "Username invalido.")
     if user.password != password:
-        return error_response(401, "Password invalid.")
+        return error_response(401, "Password invalido.")
 
     access_token = create_access_token(identity=str(user.id))
     refresh_token = create_refresh_token(identity=str(user.id))

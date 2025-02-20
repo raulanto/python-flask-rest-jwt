@@ -25,6 +25,15 @@
         "description": "User login",
         "parameters": [
           {
+            "in": "query",
+            "name": "NewParameter",
+            "description": "New parameter",
+            "required": "true",
+            "schema": {
+              "": ""
+            }
+          },
+          {
             "name": "username",
             "in": "formData",
             "required": true,

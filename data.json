@@ -12,11 +12,11 @@
     {
       "id": 2,
       "name": "guest",
-      "password": "guest",
+      "password": "password",
       "roles": [
-        "admin"
+        "basic"
       ],
-      "email": "detretaty@gmail.com"
+      "email": "guest@gmail.com"
     }
   ],
   "ships": [

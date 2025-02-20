@@ -10,13 +10,11 @@ from marshmallow import ValidationError
 
 
 @bp.route("/users", methods=["GET"])
-@jwt_required(refresh=True)
+@jwt_required()
 def get_users():
-    try:
-        users = db.all_users()
-        return jsonify(user_schema.dump(users, many=True))
-    except ValidationError as err:
-        return error_response(400, err.messages)
+    users = db.all_users()
+    return jsonify(user_schema.dump(users, many=True))
+
 
 
 @bp.route("/users/<int:id>", methods=["GET"])
