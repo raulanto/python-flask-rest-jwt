@@ -43,6 +43,7 @@ def login():
 @bp.route("/refresh", methods=["POST"])
 @jwt_required(refresh=True)
 def refresh():
+    print(get_jwt_identity())
     user = db.get_user(get_jwt_identity())
     if not user:
         return error_response(401, "Usuario desconocido.")
