@@ -75,3 +75,4 @@ def delete_user(id):
     if db.delete_user(id) is False:
         return error_response(400)
     return "", 204
+

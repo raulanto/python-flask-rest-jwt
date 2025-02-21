@@ -45,7 +45,7 @@ def login():
 def refresh():
     user = db.get_user(get_jwt_identity())
     if not user:
-        return error_response(401, "Unknown user.")
+        return error_response(401, "Usuario desconocido.")
     access_token = create_access_token(identity=user.id)
     refresh_token = create_refresh_token(identity=user.id)
     return jsonify(access_token=access_token, refresh_token=refresh_token)
